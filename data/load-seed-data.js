@@ -6,9 +6,10 @@ const usersData = require('./users.js');
 run();
 
 async function run() {
+  await client.connect();
 
   try {
-    await client.connect();
+
 
     const users = await Promise.all(
       usersData.map(user => {
@@ -26,8 +27,8 @@ async function run() {
     await Promise.all(
       clouds.map(cloud => {
         return client.query(`
-                    INSERT INTO clouds (name, level, user_id)
-                    VALUES ($1, $2, $3);
+                    INSERT INTO clouds (name, level, is_severe, user_id)
+                    VALUES ($1, $2, $3, $4);
                 `,
         [cloud.name, cloud.level, cloud.is_severe, user.id]);
       })
