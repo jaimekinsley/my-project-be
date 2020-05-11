@@ -2,13 +2,26 @@ const client = require('../lib/client');
 // import our seed data:
 const clouds = require('./clouds.js');
 const usersData = require('./users.js');
+const spotters = require('./spotters.js');
 
 run();
 
 async function run() {
-  await client.connect();
+
 
   try {
+    await client.connect();
+
+    await Promise.all(
+      sppotters.Data.map(species => {
+        return client.query(`
+          INSERT INTO spotters (spotters)
+          VALUES ($1)
+          RETURNING *;
+          `,
+        [spotters.spotters]);
+      })
+    );
 
 
     const users = await Promise.all(
@@ -27,10 +40,10 @@ async function run() {
     await Promise.all(
       clouds.map(cloud => {
         return client.query(`
-                    INSERT INTO clouds (name, level, is_severe, user_id)
-                    VALUES ($1, $2, $3, $4);
+                    INSERT INTO clouds (name, level, is_severe, spotters_id, user_id)
+                    VALUES ($1, $2, $3, $4, $5);
                 `,
-        [cloud.name, cloud.level, cloud.is_severe, user.id]);
+        [cloud.name, cloud.level, cloud.is_severe, cloud.spotters_id, user.id]);
       })
     );
 

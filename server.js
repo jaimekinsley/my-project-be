@@ -20,6 +20,7 @@ app.get('/clouds', async(req, res) => {
 // get one cloud
 app.get('/clouds/:id', async(req, res) => {
   const id = req.params.id;
+  console.log('searching for cloud', id);
   const data = await client.query(
     'SELECT * from clouds where id=$1',
     [id]
@@ -27,7 +28,7 @@ app.get('/clouds/:id', async(req, res) => {
   res.json(data.rows[0]);
 });
 
-// create a song
+// create a cloud
 app.post('/clouds/', async(req, res) => {
   try {
     const data = await client.query(
@@ -43,6 +44,24 @@ app.post('/clouds/', async(req, res) => {
     res.json(e);
   }
 });
+
+// edit a cloud's name
+app.put('/clouds/', async(req, res) => {
+  try {
+    const data = await client.query(
+      `insert into clouds (name, level, is_severe, user_id)
+      values ($1, $2, $3, $4)
+      returning*;`,
+      [req.body.name, req.body.level, req.body.is_severe, 1]
+    );
+
+    res.json(data.rows[0]);
+  } catch(e) {
+    console.error(e);
+    res.json(e);
+  }
+});
+
 
 
 

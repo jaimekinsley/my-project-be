@@ -16,6 +16,10 @@ async function run() {
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
                 );
+                CREATE TABLE spotters (
+                  id SERIAL PRIMARY KEY,
+                  spotters VARCHAR(256) NOT NULL
+                );
                 CREATE TABLE clouds (
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(512) NOT NULL,
