@@ -16,15 +16,16 @@ async function run() {
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
                 );
-                CREATE TABLE spotters (
+                CREATE TABLE spotter (
                   id SERIAL PRIMARY KEY,
-                  spotters VARCHAR(256) NOT NULL
+                  spotter VARCHAR(256) NOT NULL
                 );
                 CREATE TABLE clouds (
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(512) NOT NULL,
                     level INTEGER NOT NULL,
                     is_severe BOOLEAN NOT NULL,
+                    spotter_id INTEGER NOT NULL REFERENCES spotter(id),
                     user_id INTEGER NOT NULL REFERENCES users(id)
             );
         `);

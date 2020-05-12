@@ -14,6 +14,29 @@ const PORT = process.env.PORT || 7890;
 app.get('/clouds', async(req, res) => {
   const data = await client.query('SELECT * from clouds');
 
+  // const data = await client.query(`SELECT
+  //   clouds.id,
+  //   clouds.name,
+  //   clouds.level,
+  //   clouds.is_severe,
+  //   clouds.spotter_id,
+  //   spotter.spotter,
+
+  //   FROM clouds
+
+  //   JOIN spotter
+
+  //   ON clouds.spotter_id = spotter.id`);
+
+
+  res.json(data.rows);
+});
+
+// get all of the spotter
+
+app.get('/spotter', async(req, res) => {
+  const data = await client.query('SELECT * from spotter');
+
   res.json(data.rows);
 });
 
